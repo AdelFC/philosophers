@@ -7,8 +7,9 @@ SRC_DIR = src
 OBJ_DIR = obj
 INCS = -I includes
 
-SRC = philosophers.c
-
+SRC = philosophers.c parsing.c init_table.c \
+	start_dinner.c synchro_dinner.c print.c \
+	routine.c
 UTILS = utils.c
 
 OBJS = $(addprefix $(OBJ_DIR)/, $(SRC:.c=.o) $(UTILS:.c=.o))
