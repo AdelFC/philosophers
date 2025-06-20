@@ -6,7 +6,7 @@
 /*   By: afodil-c <afodil-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 02:47:43 by afodil-c          #+#    #+#             */
-/*   Updated: 2025/06/13 21:05:16 by afodil-c         ###   ########.fr       */
+/*   Updated: 2025/06/15 20:28:55 by afodil-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ typedef struct s_fork
 	pthread_mutex_t fork;
 	int fork_id;
 } t_fork;
+
+typedef struct s_table t_table;
 
 typedef struct s_philo
 {

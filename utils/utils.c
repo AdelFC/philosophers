@@ -6,7 +6,7 @@
 /*   By: afodil-c <afodil-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 02:47:36 by afodil-c          #+#    #+#             */
-/*   Updated: 2025/06/13 19:02:20 by afodil-c         ###   ########.fr       */
+/*   Updated: 2025/06/15 20:47:43 by afodil-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,14 +32,14 @@ void    ft_error(const char *error)
 long ft_time(t_time time)
 {
     struct timeval  tv;
-    if (gettimeofday(&tv, NULL))
+    if (gettimeofday(&tv, NULL) != 0)
         ft_error("Gettimeofday failed");
     if (SECOND == time)
-        return (tv.tv_sec + (tv.tv_usec / 1e6));
-    else if (MILLISECOND == time)
-        return (tv.tv_sec * 1e3 + (tv.tv_usec / 1e3));
+        return (tv.tv_sec);
+    if (MILLISECOND == time)
+        return (tv.tv_sec * 1000 + tv.tv_usec / 1000);
     else if (MICROSECOND == time)
-        return (tv.tv_sec * 1e6 + (tv.tv_usec));
+        return (tv.tv_sec * 1000000 + tv.tv_usec);
     else
         ft_error("ft_time failed");
     return (ERROR);
@@ -57,11 +57,11 @@ void    ft_usleep(long usec, t_table *table)
         if (table->end_simulation == 1)
             break ;
         if ((usec - time) > 1e3)
-            usleep(usec / 2);
+            usleep(1e2);
         else
         {
             while (ft_time(MICROSECOND) - start < usec)
-                continue ;
+                usleep(50) ;
         }
     }
 }

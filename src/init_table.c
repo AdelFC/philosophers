@@ -6,7 +6,7 @@
 /*   By: afodil-c <afodil-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 00:51:04 by afodil-c          #+#    #+#             */
-/*   Updated: 2025/06/13 18:23:34 by afodil-c         ###   ########.fr       */
+/*   Updated: 2025/06/15 20:36:54 by afodil-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ static void init_philos(t_table *table)
 	while (i < table->philo_nbr)
 	{
 		philo = table->philos + i;
-		philo->philo_id = i;
+		philo->philo_id = i + 1;
 		philo->full = 0;
 		philo->meals_counter = 0;
 		philo->table = table;
@@ -67,10 +67,10 @@ void	init_table(t_table *table)
 		ft_error("Error: mutex init");
 	if (pthread_mutex_init(&table->print_lock, NULL) != 0)
 		ft_error("Error: mutex init");
-	table->philos = malloc(sizeof(table->philo_nbr));
+	table->philos = malloc(sizeof(t_philo) * table->philo_nbr);
 	if (!table->philos)
 		ft_error("Error: malloc");
-	table->forks = malloc(sizeof(table->philo_nbr));
+	table->forks = malloc(sizeof(t_fork) * table->philo_nbr);
 	if (!table->forks)
 		ft_error("Error: malloc");
 	init_mutexes(table->forks, table->philo_nbr);

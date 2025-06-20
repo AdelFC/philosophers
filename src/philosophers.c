@@ -6,7 +6,7 @@
 /*   By: afodil-c <afodil-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 02:47:41 by afodil-c          #+#    #+#             */
-/*   Updated: 2025/06/13 19:04:10 by afodil-c         ###   ########.fr       */
+/*   Updated: 2025/06/15 20:28:20 by afodil-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,10 @@ int main(int argc, char **argv)
     }
     parse_input(&table, argv);
     init_table(&table);
+    if (!table.philos || !table.forks)
+	    ft_error("Error: malloc failure");
     dinner_start(&table);
-    return (0);
+    free(table.forks);
+    free(table.philos);
+    return (SUCCESS);
 }
