@@ -6,7 +6,7 @@
 /*   By: afodil-c <afodil-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 02:47:43 by afodil-c          #+#    #+#             */
-/*   Updated: 2025/06/15 20:28:55 by afodil-c         ###   ########.fr       */
+/*   Updated: 2025/06/22 23:50:12 by afodil-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,45 +22,44 @@
 # include <sys/time.h>
 # include <pthread.h>
 # include <limits.h>
+# include <stdbool.h>
 
 /*------------------- STRUC --------------------*/
 
 typedef struct s_fork
 {
-	pthread_mutex_t fork;
-	int fork_id;
-} t_fork;
+	pthread_mutex_t	fork;
+	int				fork_id;
+}				t_fork;
 
-typedef struct s_table t_table;
+typedef struct s_table	t_table;
 
 typedef struct s_philo
 {
-	int philo_id;
-	long meals_counter;
-	int full;
-	long last_meal_time;
-	t_fork *left_fork;
-	t_fork *right_fork;
-	pthread_t thread_id;
-	pthread_mutex_t philo_mtx;
-	t_table *table;
-}   t_philo;
+	int				philo_id;
+	long			last_meal_time;
+	int				meals_counter;
+	int				full;
+	pthread_mutex_t	philo_mtx;
+	t_fork			*left_fork;
+	t_fork			*right_fork;
+	t_table			*table;
+	pthread_t		thread_id;
+}				t_philo;
 
 typedef struct s_table
 {
-	long philo_nbr;
-	long time_to_die;
-	long time_to_eat;
-	long time_to_sleep;
-	long nbr_max_meals;
-	long start_simulation;
-	int end_simulation;
-	int all_threads_ready;
-	pthread_mutex_t table_mutex;
-	pthread_mutex_t print_lock;
-	t_fork *forks;
-	t_philo *philos;
-}   t_table;
+	int				philo_nbr;
+	int				time_to_die;
+	int				time_to_eat;
+	int				time_to_sleep;
+	int				nbr_max_meals;
+	int				end_simulation;
+	long			start_simulation;
+	pthread_mutex_t	print_lock;
+	t_philo			*philos;
+	t_fork			*forks;
+}				t_table;
 
 /*------------------ DEFINE --------------------*/
 
@@ -69,10 +68,10 @@ typedef struct s_table
 
 typedef enum e_time
 {
-    SECOND,
-    MILLISECOND,
-    MICROSECOND,
-}   t_time;
+	SECOND,
+	MILLISECOND,
+	MICROSECOND,
+}			t_time;
 
 typedef enum e_status
 {
@@ -82,35 +81,39 @@ typedef enum e_status
 	TAKE_FIRST_FORK,
 	TAKE_SECOND_FORK,
 	DIE,
-}	t_status;
+	END,
+}			t_status;
 
 /*-------------------- SRC --------------------*/
 
 /*parsing.c*/
-void 	parse_input(t_table *table, char **argv);
+void				parse_input(t_table *table, char **argv);
 
 /*init_table.c*/
-void	init_table(t_table *table);
+void				init_table(t_table *table);
 
 /*start_dinner.c*/
-void	dinner_start(t_table *table);
-
-/*synchro_dinner.c*/
-void	wait_all_threads(t_table *table);
-
-/*print.c*/
-void	ft_print_status(t_status status, t_philo *philo);
+bool				is_all_eat(t_table *table);
+void				start_simulation(t_table *table);
 
 /*routine.c*/
-void	ft_eat(t_philo *philo);
-void	ft_think(t_philo *philo);
+void				*philo_routine(void *arg);
 
+/*monitor.c*/
+void				*monitor_loop(void *arg);
 
 /*------------------- UTILS --------------------*/
 
+/*print.c*/
+void				ft_print_status(t_status status, t_philo *philo);
+
 /*utils.c*/
-void	ft_error(const char *error);
-long	ft_time(t_time time);
-void    ft_usleep(long usec, t_table *table);
+void				ft_error(const char *error);
+long				ft_time(t_time time);
+void				ft_usleep(long usec, t_table *table);
+
+/*helpers.c*/
+void				lock_or_exit(pthread_mutex_t *mtx);
+void				unlock_or_exit(pthread_mutex_t *mtx);
 
 #endif

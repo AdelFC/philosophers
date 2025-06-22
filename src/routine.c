@@ -6,54 +6,52 @@
 /*   By: afodil-c <afodil-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 18:20:41 by afodil-c          #+#    #+#             */
-/*   Updated: 2025/06/13 18:54:40 by afodil-c         ###   ########.fr       */
+/*   Updated: 2025/06/22 23:37:29 by afodil-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-void ft_eat(t_philo *philo)
+/* routine
+* Objectif :
+*   - Représenter la routine de vie d’un philosophe :
+*       - Prendre les fourchettes, manger, dormir, penser.
+*       - Mettre à jour les compteurs et le temps du dernier repas.
+*       - Signaler quand il a atteint son quota de repas.
+* Sortie :
+*   - Fonction de thread qui boucle tant que la simulation est active.
+*   - Retourne NULL à la fin de la simulation.
+*/
+static void	philo_eat_sleep_think(t_philo *philo)
 {
-    int val;
-
-    val = pthread_mutex_lock(&philo->left_fork->fork);
-    if (val != 0)
-        ft_error("Impossible de verrouiller la première fourchette");
-    ft_print_status(TAKE_FIRST_FORK, philo);
-    val = pthread_mutex_lock(&philo->right_fork->fork);
-    if (val != 0)
-        ft_error("Impossible de verrouiller la deuxième fourchette");
-    ft_print_status(TAKE_SECOND_FORK, philo);
-    val = pthread_mutex_lock(&philo->philo_mtx);
-    if (val != 0)
-        ft_error("Impossible de verrouiller le mutex du philosophe");
-    philo->last_meal_time = ft_time(MILLISECOND);
-    philo->meals_counter++;
-    val = pthread_mutex_unlock(&philo->philo_mtx);
-    if (val != 0)
-        ft_error("Impossible de déverrouiller le mutex du philosophe");
-    ft_print_status(EAT, philo);
-    ft_usleep(philo->table->time_to_eat, philo->table);
-    if (philo->table->nbr_max_meals > 0
-        && philo->meals_counter == philo->table->nbr_max_meals)
-    {
-        val = pthread_mutex_lock(&philo->philo_mtx);
-        if (val != 0)
-            ft_error("Impossible de verrouiller le mutex du philosophe");
-        philo->full = 1;
-        val = pthread_mutex_unlock(&philo->philo_mtx);
-        if (val != 0)
-            ft_error("Impossible de déverrouiller le mutex du philosophe");
-    }
-    val = pthread_mutex_unlock(&philo->left_fork->fork);
-    if (val != 0)
-        ft_error("Impossible de déverrouiller la première fourchette");
-    val = pthread_mutex_unlock(&philo->right_fork->fork);
-    if (val != 0)
-        ft_error("Impossible de déverrouiller la deuxième fourchette");
+	lock_or_exit(&philo->left_fork->fork);
+	ft_print_status(TAKE_FIRST_FORK, philo);
+	lock_or_exit(&philo->right_fork->fork);
+	ft_print_status(TAKE_SECOND_FORK, philo);
+	lock_or_exit(&philo->philo_mtx);
+	philo->last_meal_time = ft_time(MILLISECOND);
+	philo->meals_counter++;
+	if (philo->table->nbr_max_meals > 0
+		&& philo->meals_counter == philo->table->nbr_max_meals)
+		philo->full = 1;
+	unlock_or_exit(&philo->philo_mtx);
+	ft_print_status(EAT, philo);
+	ft_usleep(philo->table->time_to_eat * 1000, philo->table);
+	unlock_or_exit(&philo->left_fork->fork);
+	unlock_or_exit(&philo->right_fork->fork);
+	ft_print_status(SLEEP, philo);
+	ft_usleep(philo->table->time_to_sleep * 1000, philo->table);
+	ft_print_status(THINK, philo);
 }
 
-void ft_think(t_philo *philo)
+void	*philo_routine(void *arg)
 {
-    ft_print_status(THINK, philo);
+	t_philo	*philo;
+
+	philo = (t_philo *)arg;
+	if (philo->philo_id % 2 == 0)
+		ft_usleep(1000, philo->table);
+	while (!philo->table->end_simulation)
+		philo_eat_sleep_think(philo);
+	return (NULL);
 }
