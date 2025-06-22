@@ -6,7 +6,7 @@
 /*   By: afodil-c <afodil-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 18:20:41 by afodil-c          #+#    #+#             */
-/*   Updated: 2025/06/22 23:37:29 by afodil-c         ###   ########.fr       */
+/*   Updated: 2025/06/23 00:33:33 by afodil-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ static void	philo_eat_sleep_think(t_philo *philo)
 {
 	lock_or_exit(&philo->left_fork->fork);
 	ft_print_status(TAKE_FIRST_FORK, philo);
+	ft_usleep(50, philo->table);
 	lock_or_exit(&philo->right_fork->fork);
 	ft_print_status(TAKE_SECOND_FORK, philo);
 	lock_or_exit(&philo->philo_mtx);
