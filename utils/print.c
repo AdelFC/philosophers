@@ -6,7 +6,7 @@
 /*   By: afodil-c <afodil-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 18:00:22 by afodil-c          #+#    #+#             */
-/*   Updated: 2025/06/23 14:19:22 by afodil-c         ###   ########.fr       */
+/*   Updated: 2025/06/23 22:01:49 by afodil-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	ft_print_status(t_status status, t_philo *philo)
 			ft_error("Unable to unlock print_lock");
 		return ;
 	}
-	time = ft_time(MILLISECOND) - philo->table->start_simulation;
+	time = ft_time(MILLISECOND) - philo->table->start_timer;
 	if (status == TAKE_FIRST_FORK || status == TAKE_SECOND_FORK)
 		printf("%ld %d has taken a fork\n", time, philo->philo_id);
 	else if (status == EAT)
@@ -60,7 +60,7 @@ void	ft_print_status(t_status status, t_philo *philo)
 			ft_error("Unable to unlock print_lock");
 		return ;
 	}
-	time = ft_time(MILLISECOND) - philo->table->start_simulation;
+	time = ft_time(MILLISECOND) - philo->table->start_timer;
 	if (status == TAKE_FIRST_FORK || status == TAKE_SECOND_FORK)
 		printf("🍴 %ld %d has taken a fork!\n", time, philo->philo_id);
 	else if (status == EAT)

@@ -6,7 +6,7 @@
 /*   By: afodil-c <afodil-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 00:51:04 by afodil-c          #+#    #+#             */
-/*   Updated: 2025/06/23 13:59:45 by afodil-c         ###   ########.fr       */
+/*   Updated: 2025/06/23 22:05:10 by afodil-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,9 @@ static void	init_philos(t_table *table)
 */
 void	init_table(t_table *table)
 {
+	table->start_simulation = 0;
+	if (pthread_mutex_init(&table->start_mtx, NULL) != 0)
+		ft_error("Error: mutex init");
 	table->end_simulation = 0;
 	if (pthread_mutex_init(&table->end_mtx, NULL) != 0)
 		ft_error("Error: mutex init");

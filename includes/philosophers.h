@@ -6,7 +6,7 @@
 /*   By: afodil-c <afodil-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 02:47:43 by afodil-c          #+#    #+#             */
-/*   Updated: 2025/06/23 14:17:50 by afodil-c         ###   ########.fr       */
+/*   Updated: 2025/06/23 22:05:10 by afodil-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,9 +54,11 @@ typedef struct s_table
 	int				time_to_eat;
 	int				time_to_sleep;
 	int				nbr_max_meals;
+	int				start_simulation;
+	pthread_mutex_t	start_mtx;
 	int				end_simulation;
 	pthread_mutex_t	end_mtx;
-	long			start_simulation;
+	long			start_timer;
 	pthread_mutex_t	print_lock;
 	t_philo			*philos;
 	t_fork			*forks;

@@ -6,7 +6,7 @@
 /*   By: afodil-c <afodil-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 01:54:54 by afodil-c          #+#    #+#             */
-/*   Updated: 2025/06/23 13:55:10 by afodil-c         ###   ########.fr       */
+/*   Updated: 2025/06/23 22:05:10 by afodil-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,15 +39,16 @@ bool	is_all_eat(t_table *table)
 	return (full_count == table->philo_nbr);
 }
 
-/* start_simulation
-* Objectif :
-*   - Initialiser le timestamp de départ pour la simulation.
-*   - Initialiser last_meal_time pour chaque philosophe.
-*   - Lancer le thread de monitoring et les threads philosophes.
-*   - Gérer le cas particulier d’un seul philosophe.
-*   - Détacher les threads à la fin.
-* Sortie :
-*   - Lance et gère toute la vie du programme.
+/*
+** start_simulation
+** Objectif :
+** - Initialiser le timestamp de départ pour la simulation.
+** - Initialiser last_meal_time pour chaque philosophe.
+** - Lancer le thread de monitoring et les threads philosophes.
+** - Gérer le cas particulier d’un seul philosophe.
+** - Détacher les threads à la fin.
+** Sortie :
+** - Lance et gère toute la vie du programme.
 */
 static void	launch_threads(t_table *table)
 {
@@ -61,6 +62,9 @@ static void	launch_threads(t_table *table)
 			ft_error("Error: philosopher thread creation failed");
 		i++;
 	}
+	pthread_mutex_lock(&table->start_mtx);
+	table->start_simulation = 1;
+	pthread_mutex_unlock(&table->start_mtx);
 }
 
 void	start_simulation(t_table *table)
@@ -68,11 +72,11 @@ void	start_simulation(t_table *table)
 	int			i;
 	pthread_t	monitor;
 
-	table->start_simulation = ft_time(MILLISECOND);
+	table->start_timer = ft_time(MILLISECOND);
 	i = 0;
 	while (i < table->philo_nbr)
 	{
-		table->philos[i].last_meal_time = table->start_simulation;
+		table->philos[i].last_meal_time = table->start_timer;
 		i++;
 	}
 	if (table->philo_nbr == 1)

@@ -6,11 +6,23 @@
 /*   By: afodil-c <afodil-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 18:20:41 by afodil-c          #+#    #+#             */
-/*   Updated: 2025/06/23 14:07:40 by afodil-c         ###   ########.fr       */
+/*   Updated: 2025/06/23 22:05:10 by afodil-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
+
+static void	wait_for_start(t_table *table)
+{
+	pthread_mutex_lock(&table->start_mtx);
+	while (!table->start_simulation)
+	{
+		pthread_mutex_unlock(&table->start_mtx);
+		usleep(100);
+		pthread_mutex_lock(&table->start_mtx);
+	}
+	pthread_mutex_unlock(&table->start_mtx);
+}
 
 /* routine
 * Objectif :
@@ -22,13 +34,28 @@
 *   - Fonction de thread qui boucle tant que la simulation est active.
 *   - Retourne NULL à la fin de la simulation.
 */
+static void	philo_take_forks(t_philo *philo)
+{
+	if (philo->philo_id % 2 == 0)
+	{
+		lock_or_exit(&philo->left_fork->fork);
+		ft_print_status(TAKE_FIRST_FORK, philo);
+		lock_or_exit(&philo->right_fork->fork);
+		ft_print_status(TAKE_SECOND_FORK, philo);
+	}
+	else
+	{
+		lock_or_exit(&philo->right_fork->fork);
+		ft_print_status(TAKE_FIRST_FORK, philo);
+		lock_or_exit(&philo->left_fork->fork);
+		ft_print_status(TAKE_SECOND_FORK, philo);
+	}
+}
+
 static void	philo_eat_sleep_think(t_philo *philo)
 {
-	lock_or_exit(&philo->left_fork->fork);
-	ft_print_status(TAKE_FIRST_FORK, philo);
-	ft_usleep(50, philo->table);
-	lock_or_exit(&philo->right_fork->fork);
-	ft_print_status(TAKE_SECOND_FORK, philo);
+	wait_for_start(philo->table);
+	philo_take_forks(philo);
 	lock_or_exit(&philo->philo_mtx);
 	philo->last_meal_time = ft_time(MILLISECOND);
 	philo->meals_counter++;
