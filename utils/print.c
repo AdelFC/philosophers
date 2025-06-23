@@ -6,7 +6,7 @@
 /*   By: afodil-c <afodil-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 18:00:22 by afodil-c          #+#    #+#             */
-/*   Updated: 2025/06/23 00:41:14 by afodil-c         ###   ########.fr       */
+/*   Updated: 2025/06/23 14:19:22 by afodil-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	ft_print_status(t_status status, t_philo *philo)
 
 	if (pthread_mutex_lock(&philo->table->print_lock) != 0)
 		ft_error("Unable to lock print_lock");
-	if (philo->table->end_simulation == 1 && status != END)
+	if (get_end_simulation(philo->table) && status != END)
 	{
 		if (pthread_mutex_unlock(&philo->table->print_lock) != 0)
 			ft_error("Unable to unlock print_lock");
@@ -54,7 +54,7 @@ void	ft_print_status(t_status status, t_philo *philo)
 
 	if (pthread_mutex_lock(&philo->table->print_lock) != 0)
 		ft_error("Unable to lock print_lock");
-	if (philo->table->end_simulation == 1 && status != END)
+	if (get_end_simulation(philo->table) && status != END)
 	{
 		if (pthread_mutex_unlock(&philo->table->print_lock) != 0)
 			ft_error("Unable to unlock print_lock");

@@ -1,5 +1,5 @@
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -g
+CFLAGS = -Wall -Wextra -Werror -fsanitize=thread
 NAME = philo
 
 UTILS_DIR = utils
@@ -34,9 +34,6 @@ $(NAME): $(OBJS)
 	@echo "$(BOLD_BLUE)EXAMPLE :\033[0m"
 	@echo "$(BLUE)  ./philo 5 800 200 200 3\033[0m"
 	@echo "$(BLUE)----------------------------------------\033[0m"
-
-
-
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 	@mkdir -p $(dir $@)

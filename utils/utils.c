@@ -6,7 +6,7 @@
 /*   By: afodil-c <afodil-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 02:47:36 by afodil-c          #+#    #+#             */
-/*   Updated: 2025/06/22 23:46:02 by afodil-c         ###   ########.fr       */
+/*   Updated: 2025/06/23 14:11:03 by afodil-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ void	ft_usleep(long usec, t_table *table)
 	start = ft_time(MICROSECOND);
 	while ((ft_time(MICROSECOND) - start) < usec)
 	{
-		if (table->end_simulation == 1)
+		if (get_end_simulation(table))
 			break ;
 		usleep(500);
 	}

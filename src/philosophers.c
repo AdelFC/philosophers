@@ -6,7 +6,7 @@
 /*   By: afodil-c <afodil-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 02:47:41 by afodil-c          #+#    #+#             */
-/*   Updated: 2025/06/22 23:31:59 by afodil-c         ###   ########.fr       */
+/*   Updated: 2025/06/23 14:13:26 by afodil-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ int	main(int argc, char **argv)
 	while (i < table.philo_nbr)
 		pthread_mutex_destroy(&table.philos[i++].philo_mtx);
 	pthread_mutex_destroy(&table.print_lock);
+	pthread_mutex_destroy(&table.end_mtx);
 	free(table.forks);
 	free(table.philos);
 	return (SUCCESS);

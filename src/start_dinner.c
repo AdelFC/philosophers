@@ -6,7 +6,7 @@
 /*   By: afodil-c <afodil-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 01:54:54 by afodil-c          #+#    #+#             */
-/*   Updated: 2025/06/22 23:40:21 by afodil-c         ###   ########.fr       */
+/*   Updated: 2025/06/23 13:55:10 by afodil-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,5 +88,5 @@ void	start_simulation(t_table *table)
 	pthread_join(monitor, NULL);
 	i = 0;
 	while (i < table->philo_nbr)
-		pthread_detach(table->philos[i++].thread_id);
+		pthread_join(table->philos[i++].thread_id, NULL);
 }

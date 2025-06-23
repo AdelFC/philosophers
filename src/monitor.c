@@ -6,7 +6,7 @@
 /*   By: afodil-c <afodil-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/22 21:55:13 by afodil-c          #+#    #+#             */
-/*   Updated: 2025/06/22 23:37:19 by afodil-c         ###   ########.fr       */
+/*   Updated: 2025/06/23 14:04:01 by afodil-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static int	monitor_check_philos(t_table *table, long now)
 		if (now - table->philos[i].last_meal_time > table->time_to_die)
 		{
 			ft_print_status(DIE, &table->philos[i]);
-			table->end_simulation = 1;
+			set_end_simulation(table, 1);
 			unlock_or_exit(&table->philos[i].philo_mtx);
 			return (ERROR);
 		}
@@ -49,14 +49,14 @@ void	*monitor_loop(void *arg)
 	long	now;
 
 	table = (t_table *)arg;
-	while (!table->end_simulation)
+	while (!get_end_simulation(table))
 	{
 		now = ft_time(MILLISECOND);
 		if (monitor_check_philos(table, now) == ERROR)
 			return (NULL);
 		if (is_all_eat(table))
 		{
-			table->end_simulation = 1;
+			set_end_simulation(table, 1);
 			return (NULL);
 		}
 		ft_usleep(1000, table);

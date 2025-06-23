@@ -6,7 +6,7 @@
 /*   By: afodil-c <afodil-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 02:47:43 by afodil-c          #+#    #+#             */
-/*   Updated: 2025/06/22 23:50:12 by afodil-c         ###   ########.fr       */
+/*   Updated: 2025/06/23 14:17:50 by afodil-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ typedef struct s_table
 	int				time_to_sleep;
 	int				nbr_max_meals;
 	int				end_simulation;
+	pthread_mutex_t	end_mtx;
 	long			start_simulation;
 	pthread_mutex_t	print_lock;
 	t_philo			*philos;
@@ -115,5 +116,7 @@ void				ft_usleep(long usec, t_table *table);
 /*helpers.c*/
 void				lock_or_exit(pthread_mutex_t *mtx);
 void				unlock_or_exit(pthread_mutex_t *mtx);
+int					get_end_simulation(t_table *table);
+void				set_end_simulation(t_table *table, int val);
 
 #endif

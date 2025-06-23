@@ -6,7 +6,7 @@
 /*   By: afodil-c <afodil-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 00:51:04 by afodil-c          #+#    #+#             */
-/*   Updated: 2025/06/22 23:23:00 by afodil-c         ###   ########.fr       */
+/*   Updated: 2025/06/23 13:59:45 by afodil-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,8 @@ static void	init_philos(t_table *table)
 void	init_table(t_table *table)
 {
 	table->end_simulation = 0;
+	if (pthread_mutex_init(&table->end_mtx, NULL) != 0)
+		ft_error("Error: mutex init");
 	if (pthread_mutex_init(&table->print_lock, NULL) != 0)
 		ft_error("Error: mutex init");
 	table->philos = malloc(sizeof(t_philo) * table->philo_nbr);

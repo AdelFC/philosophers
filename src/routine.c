@@ -6,7 +6,7 @@
 /*   By: afodil-c <afodil-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 18:20:41 by afodil-c          #+#    #+#             */
-/*   Updated: 2025/06/23 00:33:33 by afodil-c         ###   ########.fr       */
+/*   Updated: 2025/06/23 14:07:40 by afodil-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ void	*philo_routine(void *arg)
 	philo = (t_philo *)arg;
 	if (philo->philo_id % 2 == 0)
 		ft_usleep(1000, philo->table);
-	while (!philo->table->end_simulation)
+	while (!get_end_simulation(philo->table))
 		philo_eat_sleep_think(philo);
 	return (NULL);
 }
