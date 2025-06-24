@@ -6,7 +6,7 @@
 /*   By: afodil-c <afodil-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 02:47:43 by afodil-c          #+#    #+#             */
-/*   Updated: 2025/06/23 22:05:10 by afodil-c         ###   ########.fr       */
+/*   Updated: 2025/06/24 11:04:43 by afodil-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,9 @@ void				*philo_routine(void *arg);
 
 /*monitor.c*/
 void				*monitor_loop(void *arg);
+
+/*wait_start.c*/
+void				wait_for_start(t_table *table);
 
 /*------------------- UTILS --------------------*/
 

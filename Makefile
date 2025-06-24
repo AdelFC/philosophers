@@ -8,7 +8,7 @@ OBJ_DIR = obj
 INCS = -I includes
 
 SRC = philosophers.c parsing.c init_table.c \
-	start_dinner.c \
+	start_dinner.c wait_start.c \
 	routine.c monitor.c
 UTILS = utils.c helpers.c print.c
 
